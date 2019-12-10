@@ -23,6 +23,6 @@ Assignments objectives were to create the following analysis / plots:
 9. All of the R code needed to reproduce the results (numbers, plots, etc.) in the report
 
 Note:
-Unfortunately I was unable to upload my fompleted .html file (it was showing up as a completely different code chunk) and so I 
+Unfortunately I was unable to upload my completed .html file (it was showing up as a completely different code chunk) and so I 
 uploaded the URL to my document instead. I appologize for this format, I know that it is not the proper submission format. 
 
