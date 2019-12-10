@@ -1,0 +1,131 @@
+Activity monitoring assignment - Anastasye
+==============================
+
+# Part 1: 
+##What is mean total number of steps taken per day?
+
+Loading the data:
+```{r}
+library(rmarkdown)
+activeData <- read.csv("activity.csv", header = TRUE)
+```
+
+Total number of steps taken per day:
+```{r, echo = TRUE}
+stepDay <- aggregate(.~date, data=activeData, sum, na.rm=TRUE)
+stepDay
+```
+
+Here is a histogram of the data:
+```{r, echo = TRUE}
+stepTotal <- hist(stepDay$steps, main = "Total number of steps per day", xlab = "Steps per day")
+```
+
+The following are the mean and the median of the total number of steps taken per day:
+
+```{r, echo = TRUE}
+stepDayMean <- mean(stepDay$steps)
+stepDayMean
+stepDayMedian <- median(stepDay$steps)
+stepDayMedian
+```
+
+# Part 2:
+## What was the average daily activity pattern?
+
+The average number of steps taken at each 5 minute intervals:
+``` {r, echo = TRUE}
+stepInterval <- aggregate(steps ~ interval, data = activeData, mean)
+```
+
+Here is the time series plot of the steps per 5 minute interval data:
+```{r , echo = TRUE}
+plot(stepInterval$interval, stepInterval$steps, type = "l", col = 1, main = "Average steps per interval", 
+     xlab = "Time intervals", ylab = "Average steps")
+```
+
+The following is the interval at which the maximum number of steps were taken:
+```{r, echo = TRUE}
+MaxInterval <- which.max(stepInterval$steps)
+MaxInterval
+```
+
+Interval 104 had the highest number of steps taken compare to the rest of the data.
+
+# Part 3:
+## Data analysis with missing values included:
+
+Total number of missing values in the dataset:
+```{r, echo = TRUE}
+sum(is.na(activeData))
+```
+There are 2304 missing values in the entire data set.
+
+In order to fill in the issing values in the data set, a for loop can be implemented:
+```{r, echo = TRUE}
+for(i in 1:nrow(activeData)){
+    if(is.na(activeData$steps[i])){
+        missValue <- stepInterval$steps[which(stepInterval$interval == activeData$interval[i])]
+        activeData$steps[i] <- missValue
+    }
+}
+```
+
+Using the loop, a new data set with the missing values was created:
+```{r, echo = TRUE}
+stepDayNA <- aggregate(steps ~ date, activeData, sum)
+```
+
+Here is the histogram of the new data set with the missing values:
+```{r, echo = TRUE}
+hist(stepDayNA$steps, main = "Total number of steps with NAs", xlab = "Steps per day")
+```
+
+Mean and median of the total number of steps taken each day are as followed:
+```{r, echo = TRUE}
+stepDayNAMean <- mean(stepDayNA$steps)
+stepDayNAMean
+stepDayNAMedian <- median(stepDayNA$steps)
+stepDayNAMedian
+```
+It appears that the missing values did not affect these calculations. 
+
+# Part 4:
+## Were there differences in the activity patterns during weekdays and weekends?
+
+First, a new variable is created to differentiate between weekdays and weekends within the data set:
+```{r, echo = TRUE}
+ActivePattern <- function(date_val) {
+    weekday <- weekdays(as.Date(date_val, '%Y-%m-%d'))
+    if  (!(weekday == 'Saturday' || weekday == 'Sunday')) {
+        x <- 'Weekday'
+    } else {
+        x <- 'Weekend'
+    }
+    x
+}
+```
+
+Next, this vector is converted into a factor variable:
+```{r, echo = TRUE}
+activeData$day_type <- as.factor(sapply(stepDayNA$date, ActivePattern))
+```
+
+Average number of steps per interval at each corresponding weekday is aggregated together:
+```{r, echo = TRUE}
+StepsDayNA <- aggregate(steps ~ interval+day_type, activeData, mean)
+```
+
+A plot of created to show the comparison in activity patterns between weekday and weekends:
+```{r, echo = TRUE}
+library(ggplot2)
+plot <- ggplot(StepsDayNA, aes(interval, steps)) +
+    geom_line(stat = "identity", aes(colour = day_type)) +
+    theme_gray() +
+    facet_grid(day_type ~. , scales="fixed", space="fixed") +
+    labs(x="Interval", y="Number of Steps", title = "Number of steps by day type")
+    
+print(plot)
+```
+It appears that weekends had a slightly higher activity patters, meaning more steps taken per day
+compared to weekdays.
