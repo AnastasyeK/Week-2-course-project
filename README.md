@@ -1,7 +1,7 @@
 # Week-2-course-project
 By Anastasye
 
-In order to easy see the graphs use
+In order access the HTML document for the assigment, use the following link:
 http://htmlpreview.github.com/?https://github.com/AnastasyeK/Week-2-course-project/blob/master/PA1_tamplate.html 
 
 This assignment focuses on analysing activity monitoing data from 5 minute intervals throughout the day which were measured for 2 months 
@@ -24,8 +24,4 @@ Assignments objectives were to create the following analysis / plots:
 7. Histogram of the total number of steps taken each day after missing values are imputed
 8. Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
 9. All of the R code needed to reproduce the results (numbers, plots, etc.) in the report
-
-Note:
-Unfortunately I was unable to upload my completed .html file (it was showing up as a completely different code chunk) and so I 
-uploaded the URL to my document instead. I appologize for this format, I know that it is not the proper submission format. 
 
