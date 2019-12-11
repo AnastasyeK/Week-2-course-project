@@ -1,6 +1,9 @@
 # Week-2-course-project
 By Anastasye
 
+In order to easy see the graphs use
+http://htmlpreview.github.com/?https://github.com/AnastasyeK/Week-2-course-project/blob/master/PA1_tamplate.html 
+
 This assignment focuses on analysing activity monitoing data from 5 minute intervals throughout the day which were measured for 2 months 
 between October and November 2012. 
 
